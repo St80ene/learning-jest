@@ -1,8 +1,6 @@
 name: Merge and Delete branch after approval
 
 on:
-  push:
-    branches: [main]
   pull_request:
     types:
       - closed
@@ -11,11 +9,6 @@ jobs:
   state_event_type:
     runs-on: ubuntu-latest
     steps:
-      - name: if_pr
-        if: github.event.pull_request.merged == 'true'
-        run: |
-          echo "A pull request was closed"
-
       - name: Debug event payload
         run: |
           echo "Payload: ${{ toJson(github.event) }}"
@@ -26,13 +19,14 @@ jobs:
           echo "A pull request was merged to the main branch."
 
       - name: Delete branch after being merged to main
-        if: github.event.pull_request.merged == 'true'
+        if: github.event.pull_request.merged_at != null
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Extract the branch name from the event payload
-          branch_name=$(echo "${{ github.event.pull_request.head.ref }}")
+          branch_name="${{ github.event.pull_request.head.ref }}"
           echo "Deleting branch: $branch_name"
 
-          gh auth login --with-token <<< "$GITHUB_TOKEN"
+          # Authenticate and delete the branch
+          echo "${GITHUB_TOKEN}" | gh auth login --with-token
           gh api -X DELETE repos/${{ github.repository }}/git/refs/heads/$branch_name
