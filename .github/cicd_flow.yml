@@ -5,13 +5,13 @@ on:
     branches: [main]
   pull_request:
     types:
-      - merged
+      - closed
 
 jobs:
   state_event_type:
     runs-on: ubuntu-latest
     steps:
       - name: if_pr
-        if: github.event.pull_request
+        if: github.event.pull_request.merged == 'true'
         run: |
-          echo A pull request was closed
+          echo "A pull request was closed"
