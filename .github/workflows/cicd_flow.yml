@@ -15,3 +15,24 @@ jobs:
         if: github.event.pull_request.merged == 'true'
         run: |
           echo "A pull request was closed"
+
+      - name: Debug event payload
+        run: |
+          echo "Payload: ${{ toJson(github.event) }}"
+
+      - name: Check if PR was merged
+        if: github.event.pull_request.merged_at != null
+        run: |
+          echo "A pull request was merged to the main branch."
+
+      - name: Delete branch after being merged to main
+        if: github.event.pull_request.merged == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Extract the branch name from the event payload
+          branch_name=$(echo "${{ github.event.pull_request.head.ref }}")
+          echo "Deleting branch: $branch_name"
+
+          gh auth login --with-token <<< "$GITHUB_TOKEN"
+          gh api -X DELETE repos/${{ github.repository }}/git/refs/heads/$branch_name
