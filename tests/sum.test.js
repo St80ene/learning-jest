@@ -5,7 +5,7 @@ describe('add two numbers', () => {
     expect(sum(1, 2)).toBe(3);
   });
 
-  // test case to check for negatives
+  // test case to check for negatives when adding
   test('add -1 and -2 to equal -3', () => {
     expect(sum(-1, -2)).toBe(-3);
   });
