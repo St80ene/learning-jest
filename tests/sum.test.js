@@ -9,6 +9,7 @@ describe('add two numbers', () => {
     expect(sum(-1, -2)).toBe(-3);
   });
 
+  // test case to check if 0 plus 0 equals 0
   test('add 0 and 0 to equal 0', () => {
     expect(sum(0, 0)).toBe(0);
   });
