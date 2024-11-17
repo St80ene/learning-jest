@@ -9,15 +9,6 @@ jobs:
   state_event_type:
     runs-on: ubuntu-latest
     steps:
-      - name: Debug event payload
-        run: |
-          echo "Payload: ${{ toJson(github.event) }}"
-
-      - name: Check if PR was merged
-        if: github.event.pull_request.merged_at != null
-        run: |
-          echo "A pull request was merged to the main branch."
-
       - name: Delete branch after being merged to main
         if: github.event.pull_request.merged_at != null
         env:
