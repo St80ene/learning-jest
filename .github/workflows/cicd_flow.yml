@@ -1,4 +1,4 @@
-name: Merge and Delete branch after approval
+name: Merge and Delete branch
 
 on:
   pull_request:
