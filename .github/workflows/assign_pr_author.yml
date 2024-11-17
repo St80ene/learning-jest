@@ -2,8 +2,7 @@ name: Assign PR to author
 
 on:
   pull_request:
-    types:
-      - opened
+    types: [opened]
 
 jobs:
   state_event_type:
