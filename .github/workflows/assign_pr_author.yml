@@ -17,4 +17,4 @@ jobs:
 
           gh api repos/${{github.repository}}/issues/$pr_number \
             -X PATCH \
-            -f assignees="[pr_author]"
+            -f "assignees=[]pr_author"
