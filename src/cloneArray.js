@@ -1,4 +1,4 @@
 const cloneArray = (array) => [...array];
 
-// export the function using module exports
+// export the function using export
 module.exports = cloneArray;

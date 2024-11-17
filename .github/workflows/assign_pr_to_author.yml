@@ -1,0 +1,24 @@
+name: Assign PR to Author
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  assign_pr_to_author:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assign PR to author
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pr_author=${{ github.event.pull_request.user.login }}
+          pr_number=${{ github.event.pull_request.number }}
+
+          # Assign the PR to the author
+          gh api repos/${{ github.repository }}/issues/$pr_number \
+            -X PATCH \
+            -f assignees="$pr_author"
+
+      - name: Verify assignment
+        run: echo "PR successfully assigned to $pr_author"
